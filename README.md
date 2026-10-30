@@ -3,6 +3,8 @@
 **Talk. Reveal. Learn.** A beautiful live workshop worksheet studio.
 
 ## Features
+- Responsive device previews for **phone (390 × 844), tablet (820 × 1180), and desktop (1366 × 820)**. Preview each inside an isolated viewport without changing the published session.
+- Rotate phone/tablet previews; toggle between live published view and a private draft preview of the selected section. Draft preview never publishes a section.
 - Desktop presenter studio and mobile audience view.
 - Reveal sections live, QR sharing, local notes + export.
 - Editable text, video, image, link, audio, QR, reflection and quote blocks.
