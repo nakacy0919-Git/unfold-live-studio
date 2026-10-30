@@ -22,6 +22,37 @@
 @media(max-width:1000px){.shell{grid-template-columns:205px minmax(320px,1fr);max-width:920px}.preview-column{position:static;grid-column:2}.phone{height:600px;width:320px}.preview-title{max-width:340px;margin:0 auto 15px}.sidebar{grid-row:span 2}}
 @media(max-width:700px){.app-header{height:65px;padding:0 13px}.brand-sub{display:none}.logo-mark{width:36px;height:36px}.head-actions{gap:5px}.head-actions #exportBtn,.head-actions #importBtn,.head-actions .status-pill{display:none}.head-actions .btn{padding:9px;font-size:11px}.shell{display:flex;flex-direction:column;padding:19px 13px;gap:20px}.sidebar{position:static;height:auto;min-height:auto;display:block}.sidebar .session-tiny,.sidebar .nav-kicker,.sidebar .sidebar-foot{display:none}.sidebar .nav-label{padding:0 3px 6px}.sections-nav{max-height:unset;min-height:0;display:flex;flex-direction:row;overflow-x:auto;gap:6px}.section-btn{min-width:145px;padding:10px}.section-btn .st-title{font-size:11px}.page-head h1{font-size:26px}.hero-control{border-radius:20px}.edit-area{padding:19px 13px}.palette{grid-template-columns:repeat(4,1fr)}.preview-column{grid-column:auto}.phone{height:630px}.preview-footer{margin-bottom:15px}.modal{padding:23px}}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+
+#rotatePreview[hidden]{display:none!important}
+/* True viewport previews: isolated iframe documents allow responsive media queries. */
+.preview-device-actions{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin:0 0 16px}
+.preview-device-actions button{border:1px solid #e1e8dd;color:#435348;background:#fff;border-radius:10px;padding:8px 11px;font-size:11px;font-weight:750;transition:.18s}
+.preview-device-actions button:hover{background:#edf7e7;border-color:#b6d9a2;transform:translateY(-1px)}
+.preview-device-actions button:first-child{background:#eaf6df;border-color:#b4d59d;color:#356121}
+.phone-screen iframe{display:block;border:0;width:100%;height:100%;background:#ecf0ea}
+.device-modal-overlay{padding:13px;z-index:72}
+.device-modal{display:flex;flex-direction:column;width:min(100%,1320px);height:min(94dvh,1100px);max-height:calc(100dvh - 26px);background:#fff;border-radius:24px;box-shadow:0 25px 80px #07160e70;overflow:hidden}
+.device-modal-header{display:flex;justify-content:space-between;align-items:flex-start;gap:15px;padding:23px 28px 12px}
+.device-modal-header h2{margin:6px 0 6px;font-size:23px;letter-spacing:-.7px}
+.device-modal-header p{font-size:12px;color:#8b9990;line-height:1.6;margin:0}
+.device-modal-toolbar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;padding:12px 28px 18px}
+.device-tabs{display:flex;gap:6px;flex-wrap:wrap;align-items:center;background:#f0f3ee;padding:5px;border-radius:14px}
+.device-tabs button{background:transparent;border:1px solid transparent;border-radius:10px;color:#637068;padding:10px 16px;font-size:12px;font-weight:800;min-width:98px}
+.device-tabs button[aria-pressed="true"]{background:#fff;border-color:#dde7d7;box-shadow:0 2px 9px #13261a12;color:#1b3329}
+.device-tools{display:flex;gap:7px;flex-wrap:wrap}
+.device-tools .btn{font-size:11px}.device-tools button[aria-pressed="true"]{background:#eaf6df;border-color:#b4d59d;color:#356121}
+.device-stage{position:relative;flex:1;min-height:180px;background:radial-gradient(circle at 48% 44%,#f5f8f4,#e8eee6);border-top:1px solid #e6ece5;border-bottom:1px solid #e6ece5;overflow:hidden;display:grid;place-items:center}
+.device-scale-box{position:relative;flex:0 0 auto}
+.device-frame-shell{position:absolute;left:0;top:0;background:#f8faf7;border:12px solid #20322a;border-radius:36px;overflow:hidden;box-shadow:0 28px 85px #142a2230,0 4px 0 #15271b16;transform-origin:top left}
+.device-frame-shell[data-form="tablet"]{border-radius:26px;border-width:13px}
+.device-frame-shell[data-form="desktop"]{border-radius:16px;border-width:10px}
+.device-frame-shell[data-form="desktop"]:after{content:"";height:6px;width:42%;background:#b9c6b9;border-radius:0 0 8px 8px;position:absolute;left:29%;bottom:0;opacity:.45;pointer-events:none}
+.device-frame-shell[data-form="phone"]:before{content:"";position:absolute;z-index:3;top:0;left:50%;transform:translateX(-50%);width:94px;height:15px;border-radius:0 0 12px 12px;background:#20322a;pointer-events:none}
+.device-frame-shell iframe{display:block;border:0;width:100%;height:100%;background:#ecf0ea}
+.device-modal-bottom{padding:12px 28px;display:flex;align-items:center;justify-content:space-between;gap:10px;color:#7a897d;font-size:11px;flex-wrap:wrap}
+.device-modal-bottom strong{color:#2c4e35;font-variant-numeric:tabular-nums}
+.device-preview-tag{color:#728478;font-size:11px}
+@media(max-width:700px){.head-actions #audienceOpenBtn{display:none}.device-modal-overlay{padding:5px}.device-modal{height:calc(100dvh - 10px);max-height:calc(100dvh - 10px);border-radius:16px}.device-modal-header{padding:16px 14px 8px}.device-modal-header h2{font-size:17px}.device-modal-header p{font-size:10px}.device-modal-toolbar{padding:9px 14px 12px;gap:8px}.device-tabs{width:100%}.device-tabs button{min-width:0;flex:1;padding:10px 7px}.device-tools{width:100%;justify-content:space-between}.device-tools .btn{padding:8px 9px}.device-modal-bottom{padding:10px 14px}.preview-device-actions{justify-content:center}}
 </style>
 </head>
 <body>
@@ -44,9 +75,28 @@
    <div class="editor-foot"><span>● 自動保存 · クラウド接続時は配信にも反映</span><button class="btn small" id="metaBtn">⚙ 講演タイトルを変更</button></div>
   </section>
  </main>
- <aside class="preview-column"><div class="preview-title"><h3>参加者プレビュー</h3><small>LIVE PREVIEW · SMARTPHONE</small></div><div class="phone"><div class="phone-screen" id="phonePreview"></div></div><div class="preview-footer"><span>●</span> 参加者には公開済みの内容だけを表示<br/>クラウド接続中は参加者の端末へ配信</div></aside>
+ <aside class="preview-column"><div class="preview-title"><h3>端末別プレビュー</h3><small>DEVICE PREVIEW</small></div>
+  <div class="preview-device-actions" role="group" aria-label="端末ごとの表示を確認">
+   <button type="button" data-show-preview="phone" aria-label="スマートフォン表示を拡大">▯ スマホ</button>
+   <button type="button" data-show-preview="tablet" aria-label="タブレットの表示を確認">▤ タブレット</button>
+   <button type="button" data-show-preview="desktop" aria-label="パソコンの表示を確認">▣ PC</button>
+  </div>
+  <div class="phone"><div class="phone-screen" id="phonePreview"><iframe id="miniAudienceFrame" title="スマートフォンでの参加者画面" sandbox="allow-same-origin" loading="eager"></iframe></div></div>
+  <div class="preview-footer"><span>●</span> 公開済みの画面を端末サイズで確認<br/>タップして大きな表示に切り替えられます</div>
+ </aside>
 </div>
 <section id="audienceView"><div id="audConnection" class="aud-connection">講演資料を確認中…</div><div class="aud-wrap" id="fullAudience"></div><div class="aud-actions"><button id="audNotesExport">↧ 自分のメモを書き出す</button><button id="audRefresh">↻ 表示を更新</button></div></section>
+<div class="modal-overlay device-modal-overlay" id="devicePreviewModal" role="dialog" aria-modal="true" aria-label="端末別プレビュー">
+ <div class="device-modal">
+  <div class="device-modal-header"><div><div class="eyebrow">UNFOLD / RESPONSIVE PREVIEW</div><h2>端末別プレビュー</h2><p>参加者に届く資料を、実際の画面幅で確認できます。</p></div><button class="btn small icon-btn" id="closeDevicePreview" aria-label="プレビューを閉じる">×</button></div>
+  <div class="device-modal-toolbar">
+   <div class="device-tabs" role="group" aria-label="プレビュー端末を切り替える"><button type="button" data-device="phone" aria-pressed="true">▯ スマホ</button><button type="button" data-device="tablet" aria-pressed="false">▤ タブレット</button><button type="button" data-device="desktop" aria-pressed="false">▣ PC</button></div>
+   <div class="device-tools"><button type="button" id="toggleDraftPreview" class="btn small" aria-pressed="false">✎ 編集中を確認</button><button type="button" id="rotatePreview" class="btn small">↻ 縦横を切替</button><button type="button" id="openRealAudience" class="btn small">↗ 実際の参加者画面</button></div>
+  </div>
+  <div class="device-stage" id="deviceStage"><div class="device-scale-box" id="deviceScaleBox"><div class="device-frame-shell" id="deviceFrameShell" data-form="phone"><iframe id="deviceAudienceFrame" title="端末ごとの参加者表示" sandbox="allow-same-origin" loading="eager"></iframe></div></div></div>
+  <div class="device-modal-bottom"><span><strong id="previewDeviceName">スマホ</strong> <span id="previewSize">390 × 844 px</span></span><span class="device-preview-tag"><span id="previewModeHelp">公開済みの内容を表示しています。</span></span></div>
+ </div>
+</div>
 <div id="toast" role="status" aria-live="polite"></div>
 <div class="modal-overlay" id="shareModal" role="dialog" aria-modal="true" aria-label="参加者リンクを共有"><div class="modal"><div class="modal-head"><div><div class="eyebrow">INVITE YOUR AUDIENCE</div><h2>共有QRコード</h2></div><button class="btn small icon-btn" id="closeShare" aria-label="閉じる">×</button></div><p>同じワークシートに入るためのQRコード。公開URLを設定すると参加者用リンクを作れます。</p><label class="field"><small>ワークシート公開URL（Vercelなど）</small><input id="shareUrl" placeholder="https://your-app.vercel.app/"/></label><div class="qr-big" id="shareQr"><span style="color:#a7b3a8;text-align:center;font-size:12px">公開URLを入力すると<br/>QRコードが表示されます</span></div><p class="attention">管理者が「クラウド接続」を完了すると、参加者の別端末でも公開されたセクションが自動更新されます。更新には数秒かかります。</p><div class="modal-footer"><button class="btn" id="copyUrlBtn">リンクをコピー</button><button class="btn primary" id="doneShare">閉じる</button></div></div></div>
 <div class="modal-overlay" id="metaModal" role="dialog" aria-modal="true" aria-label="講演設定"><div class="modal"><div class="modal-head"><div><div class="eyebrow">WORKSHOP SETTINGS</div><h2>講演の設定</h2></div><button class="btn small icon-btn" id="closeMeta" aria-label="閉じる">×</button></div><label class="field"><small>ワークシートのタイトル</small><input id="sessionTitleInput" maxlength="100"/></label><label class="field"><small>講演のサブタイトル</small><input id="sessionSubtitleInput" maxlength="200"/></label><p>講演ごとに内容を切り替える場合は、右上の「保存」からJSONを保存し、次回「読み込み」で復元できます。</p><div class="modal-footer"><button class="btn primary" id="saveMeta">保存する</button></div></div></div>
@@ -1369,9 +1419,76 @@ function renderOneBlock(b,secIdx,small){let body='';const head=esc(b.heading||la
  if(b.type==='link')body=`<div class="block-tag">EXPLORE / RESOURCE</div><h3>${head}</h3>${desc?`<p>${desc}</p>`:''}${url?`<a class="link-tile" href="${esc(url)}" target="_blank" rel="noopener noreferrer">${esc(b.label||'リンクを開く')} <span>↗</span></a>`:'<div class="placeholder">↗<br/>リンク先URLを登録してください</div>'}`;
  if(b.type==='qr')body=`<div class="block-tag">SCAN & CONNECT</div><h3>${head}</h3>${desc?`<p>${desc}</p>`:''}<div class="qr-row">${url?`<div class="qr-slot" data-qr="${esc(url)}"></div><p style="font-size:10px;margin-top:5px">スマホのカメラで読み取り</p>`:'<div class="placeholder">▦<br/>QRコードにするURLを入力</div>'}</div>`;
  return `<div class="sheet-block">${body}</div>`}
-function sheetHTML({small=false,full=false}={}){const idx=sectionNavIndex();const sec=state.sections[idx];const nav=full?`<div class="aud-nav">${state.sections.map((s,i)=>i<=state.published?`<button data-open-aud="${i}" class="${idx===i?'active':''}">${String(i+1).padStart(2,'0')} ${esc(s.title)}</button>`:'').join('')}</div>`:'';
+function sheetHTML({small=false,full=false,previewIndex=null}={}){const idx=previewIndex===null?sectionNavIndex():Math.max(0,Math.min(previewIndex,state.sections.length-1));const sec=state.sections[idx];const previewLimit=previewIndex===null?state.published:Math.max(state.published,idx);const nav=full?`<div class="aud-nav">${state.sections.map((s,i)=>i<=previewLimit?`<button data-open-aud="${i}" class="${idx===i?'active':''}">${String(i+1).padStart(2,'0')} ${esc(s.title)}</button>`:'').join('')}</div>`:'';
  return `<div class="sheet"><div class="sheet-top"><span class="sheet-brand">UNFOLD<i>.</i></span><span class="sheet-onair">LIVE SESSION</span></div><div class="sheet-overline">${esc(state.title)} · SECTION ${String(idx+1).padStart(2,'0')}</div><h1>${esc(sec.title)}</h1><div class="sheet-desc">${esc(sec.desc||state.subtitle||'')}</div><div class="sheet-stepper">${state.sections.map((x,i)=>`<div class="sheet-step ${i<idx?'done':''} ${i===idx?'current':''}"></div>`).join('')}</div>${nav}<div class="sheet-cover"><div class="cap">LIVE WORKSHEET · ${String(idx+1).padStart(2,'0')} / ${String(state.sections.length).padStart(2,'0')}</div><div class="cover-title">Discover. Reflect.<br/>Take the next step.</div><div class="cover-bottom">Learn. Think. Connect.</div></div>${sec.blocks.map(b=>renderOneBlock(b,idx,small)).join('')||'<div class="placeholder">このセクションにはまだブロックがありません</div>'}<div class="sheet-bottom">UNFOLD LIVE WORKSHEET STUDIO · FOR LEARNING</div></div>`}
-function renderPreviews(){$('phonePreview').innerHTML=sheetHTML({small:true});if(isAudience){$('fullAudience').innerHTML=sheetHTML({full:true});$('fullAudience').querySelectorAll('[data-open-aud]').forEach(b=>b.onclick=()=>{state.active=Number(b.dataset.openAud);renderPreviews();window.scrollTo({top:0,behavior:'smooth'})});$('fullAudience').querySelectorAll('[data-note]').forEach(el=>el.addEventListener('input',()=>{try{localStorage.setItem(el.dataset.note,el.value)}catch{toast('メモを保存できませんでした')}}))}document.querySelectorAll('[data-qr]').forEach(el=>renderQR(el,el.dataset.qr))}
+// Each embedded frame has its own true CSS viewport (no stretched screenshots).
+// Build from the same worksheet renderer as the public audience page.
+const PREVIEW_SIZES={phone:{label:'スマホ',width:390,height:844},tablet:{label:'タブレット',width:820,height:1180},desktop:{label:'PC',width:1366,height:820}};
+let currentDevice='phone',previewLandscape=false,previewRaf=0,previewDraftMode=false;
+function isolatedPreviewDocument(mode='live'){
+ const wrap=document.createElement('div');
+ wrap.innerHTML=sheetHTML({full:true,previewIndex:mode==='draft'?selected:null});
+ wrap.querySelectorAll('[data-qr]').forEach(el=>renderQR(el,el.dataset.qr));
+ const style=document.querySelector('head style').textContent;
+ return `<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>${style}\nhtml,body{min-height:100%;margin:0;overflow:auto}body{background:#ecf0ea;padding:18px 16px 50px}.aud-wrap{width:min(100%,780px);margin:auto}</style></head><body><div class="aud-wrap">${wrap.innerHTML}</div></body></html>`;
+}
+function refreshDeviceFrames(){
+ if(isAudience)return;
+ const markup=isolatedPreviewDocument();
+ const mini=$('miniAudienceFrame'),large=$('deviceAudienceFrame');
+ if(mini)mini.srcdoc=markup;
+ if(large&&$('devicePreviewModal').classList.contains('visible'))large.srcdoc=previewDraftMode?isolatedPreviewDocument('draft'):markup;
+}
+function setPreviewDevice(type){
+ if(!PREVIEW_SIZES[type])return;
+ if(currentDevice!==type)previewLandscape=false;
+ currentDevice=type;
+ document.querySelectorAll('[data-device]').forEach(btn=>btn.setAttribute('aria-pressed',String(btn.dataset.device===type)));
+ $('rotatePreview').hidden=type==='desktop';
+ $('previewDeviceName').textContent=PREVIEW_SIZES[type].label;
+ sizeDeviceFrame();
+}
+function sizeDeviceFrame(){
+ const stage=$('deviceStage'); if(!stage||!$('devicePreviewModal').classList.contains('visible'))return;
+ const chosen=PREVIEW_SIZES[currentDevice];
+ const width=previewLandscape?chosen.height:chosen.width;
+ const height=previewLandscape?chosen.width:chosen.height;
+ const shell=$('deviceFrameShell'),box=$('deviceScaleBox');
+ const border=currentDevice==='desktop'?20:currentDevice==='tablet'?26:24;
+ const outerW=width+border,outerH=height+border;
+ const stageW=Math.max(120,stage.clientWidth-48),stageH=Math.max(120,stage.clientHeight-34);
+ const scale=Math.min(1,stageW/outerW,stageH/outerH);
+ shell.dataset.form=currentDevice;
+ shell.style.width=outerW+'px';shell.style.height=outerH+'px';shell.style.transform=`scale(${scale})`;
+ box.style.width=(outerW*scale)+'px';box.style.height=(outerH*scale)+'px';
+ $('previewSize').textContent=`${width} × ${height} px${previewLandscape?' · 横向き':''}  /  ${Math.round(scale*100)}% 表示`;
+}
+function openDeviceModal(type='phone'){
+ $('devicePreviewModal').classList.add('visible');
+ previewDraftMode=false;paintPreviewMode();setPreviewDevice(type);
+ const frame=$('deviceAudienceFrame');frame.srcdoc=isolatedPreviewDocument();
+ requestAnimationFrame(sizeDeviceFrame);
+}
+function closeDeviceModal(){$('devicePreviewModal').classList.remove('visible');}
+function paintPreviewMode(){
+ const button=$('toggleDraftPreview');
+ button.setAttribute('aria-pressed',String(previewDraftMode));
+ button.textContent=previewDraftMode?'✓ 編集中を表示中':'✎ 編集中を確認';
+ $('previewModeHelp').textContent=previewDraftMode?'編集内容の確認用です。未公開の内容は参加者に見えません。':'公開済みの内容を表示しています。';
+}
+function initDevicePreview(){
+ document.querySelectorAll('[data-show-preview]').forEach(b=>b.addEventListener('click',()=>openDeviceModal(b.dataset.showPreview)));
+ document.querySelectorAll('[data-device]').forEach(b=>b.addEventListener('click',()=>setPreviewDevice(b.dataset.device)));
+ $('rotatePreview').addEventListener('click',()=>{previewLandscape=!previewLandscape;sizeDeviceFrame()});
+ $('toggleDraftPreview').addEventListener('click',()=>{previewDraftMode=!previewDraftMode;paintPreviewMode();$('deviceAudienceFrame').srcdoc=isolatedPreviewDocument(previewDraftMode?'draft':'live')});
+ $('closeDevicePreview').addEventListener('click',closeDeviceModal);
+ $('devicePreviewModal').addEventListener('click',e=>{if(e.target===$('devicePreviewModal'))closeDeviceModal()});
+ $('openRealAudience').addEventListener('click',()=>{$('audienceOpenBtn').click()});
+ window.addEventListener('resize',()=>{cancelAnimationFrame(previewRaf);previewRaf=requestAnimationFrame(sizeDeviceFrame)});
+}
+initDevicePreview();
+
+function renderPreviews(){refreshDeviceFrames();if(isAudience){$('fullAudience').innerHTML=sheetHTML({full:true});$('fullAudience').querySelectorAll('[data-open-aud]').forEach(b=>b.onclick=()=>{state.active=Number(b.dataset.openAud);renderPreviews();window.scrollTo({top:0,behavior:'smooth'})});$('fullAudience').querySelectorAll('[data-note]').forEach(el=>el.addEventListener('input',()=>{try{localStorage.setItem(el.dataset.note,el.value)}catch{toast('メモを保存できませんでした')}}))}document.querySelectorAll('[data-qr]').forEach(el=>renderQR(el,el.dataset.qr))}
 function publish(index){const target=Math.max(0,Math.min(index,state.sections.length-1));state.published=Math.max(state.published,target);state.active=target;selected=target;editing=null;updateState();toast('SECTION '+String(target+1).padStart(2,'0')+' を表示しました')}
 const isAudience=new URLSearchParams(location.search).get('audience')==='1';
 // Cloud mode uses a server-only admin key and private Blob storage. Never embed the key in links.
@@ -1467,7 +1584,7 @@ $('audRefresh').onclick=async()=>{await pollAudience(true);toast('表示を確�
 $('audNotesExport').onclick=()=>{const parts=[state.title,'参加者メモ',''];for(let i=0;i<=state.published;i++){const s=state.sections[i];const lines=s.blocks.filter(b=>b.type==='prompt').map(b=>{let note='';try{note=localStorage.getItem('unfold-note-'+i+'-'+b.id)||''}catch{}return b.heading+'\n'+note});if(lines.length)parts.push('■ '+s.title,lines.join('\n\n'),'')}const a=document.createElement('a');const u=URL.createObjectURL(new Blob([parts.join('\n')],{type:'text/plain;charset=utf-8'}));a.href=u;a.download='unfold-my-notes.txt';a.click();setTimeout(()=>URL.revokeObjectURL(u),1000)};
 
 
-window.addEventListener('keydown',e=>{if(e.key==='Escape'){closeModal('shareModal');closeModal('metaModal');closeModal('cloudModal')}});
+window.addEventListener('keydown',e=>{if(e.key==='Escape'){closeModal('shareModal');closeModal('metaModal');closeModal('cloudModal');closeDeviceModal()}});
 </script>
 </body>
 </html>
