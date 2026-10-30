@@ -1,5 +1,26 @@
 import { get, put } from '@vercel/blob';
 import { timingSafeEqual } from 'node:crypto';
+import { initializeApp, getApps, cert } from 'firebase-admin/app';
+import { getFirestore } from 'firebase-admin/firestore';
+
+// The complete workshop stays in private Blob. Firestore receives ONLY published sections.
+// Firebase Admin credentials stay exclusively in the Vercel server environment.
+let firestoreDatabase;
+function liveFirestore(){
+  if (!process.env.FIREBASE_PROJECT_ID || !process.env.FIREBASE_SERVICE_ACCOUNT_JSON ||
+      !process.env.FIREBASE_API_KEY || !process.env.FIREBASE_APP_ID) return null;
+  if (firestoreDatabase) return firestoreDatabase;
+  const serviceAccount=JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT_JSON);
+  if (serviceAccount.project_id !== process.env.FIREBASE_PROJECT_ID) throw Error('Firebase project mismatch');
+  const app=getApps().find(a=>a.name==='unfold-live') ||
+    initializeApp({credential:cert(serviceAccount),projectId:process.env.FIREBASE_PROJECT_ID},'unfold-live');
+  firestoreDatabase=getFirestore(app);
+  return firestoreDatabase;
+}
+function publicState(s){
+  return {title:s.title,subtitle:s.subtitle,accent:s.accent,
+    published:s.published,active:s.active,sections:s.sections.slice(0,s.published+1)};
+}
 
 const PATH = 'unfold/live-session.json';
 const noCache = { 'Cache-Control': 'no-store, private', 'X-Content-Type-Options': 'nosniff' };
@@ -41,7 +62,7 @@ export default async function handler(req,res){
       if(!doc) return send(res,200,{ok:true,version:0,state:null,admin:hasAdminKey(req)});
       if(hasAdminKey(req)) return send(res,200,{ok:true,version:doc.version,state:doc.state,admin:true});
       const s=doc.state;
-      return send(res,200,{ok:true,version:doc.version,admin:false,state:{title:s.title,subtitle:s.subtitle,accent:s.accent,published:s.published,active:s.active,sections:s.sections.slice(0,s.published+1)}});
+      return send(res,200,{ok:true,version:doc.version,admin:false,state:publicState(s)});
     }catch(e){console.error('UNFOLD read failure',e?.message);return send(res,503,{error:'同期データを取得できませんでした'});}
   }
   if(req.method==='POST'){
@@ -53,7 +74,12 @@ export default async function handler(req,res){
       if(!state) return send(res,400,{error:'教材データの形式が不正です'});
       const version=Date.now();
       await put(PATH,JSON.stringify({state,version}),{access:'private',addRandomSuffix:false,allowOverwrite:true,contentType:'application/json',cacheControlMaxAge:60});
-      return send(res,200,{ok:true,version});
+      // Firestore provides push events via onSnapshot; avoid periodic polling when configured.
+      const db=liveFirestore();
+      if(db){
+        await db.collection('unfoldLive').doc('main').set({state:publicState(state),version,updatedAt:new Date()});
+      }
+      return send(res,200,{ok:true,version,transport:db?'firestore':'blob'});
     }catch(e){console.error('UNFOLD write failure',e?.message);return send(res,503,{error:'同期データを保存できませんでした'});}
   }
   res.setHeader('Allow','GET, POST');return send(res,405,{error:'Method not allowed'});
