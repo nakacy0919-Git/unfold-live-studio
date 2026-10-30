@@ -1491,7 +1491,7 @@ initDevicePreview();
 function renderPreviews(){refreshDeviceFrames();if(isAudience){$('fullAudience').innerHTML=sheetHTML({full:true});$('fullAudience').querySelectorAll('[data-open-aud]').forEach(b=>b.onclick=()=>{state.active=Number(b.dataset.openAud);renderPreviews();window.scrollTo({top:0,behavior:'smooth'})});$('fullAudience').querySelectorAll('[data-note]').forEach(el=>el.addEventListener('input',()=>{try{localStorage.setItem(el.dataset.note,el.value)}catch{toast('メモを保存できませんでした')}}))}document.querySelectorAll('[data-qr]').forEach(el=>renderQR(el,el.dataset.qr))}
 function publish(index){const target=Math.max(0,Math.min(index,state.sections.length-1));state.published=Math.max(state.published,target);state.active=target;selected=target;editing=null;updateState();toast('SECTION '+String(target+1).padStart(2,'0')+' を表示しました')}
 const isAudience=new URLSearchParams(location.search).get('audience')==='1';
-// Cloud mode uses a server-only admin key and private Blob storage. Never embed the key in links.
+// Cloud mode uses a server-only admin key, private Blob drafts and (when configured) Firestore push notifications. Never embed the key in links.
 let cloudKey='',cloudReady=false,cloudTimer=null,cloudWriting=false,cloudDirty=false,lastCloudVersion=0,cloudPollBusy=false;
 function paintCloudStatus(){
  const x=$('cloudStatus'); if(!x)return;
@@ -1554,11 +1554,56 @@ async function pollAudience(manual=false){
    if(d.state&&d.version!==lastCloudVersion&&validData(d.state)){
      syncIncoming(d.state);lastCloudVersion=d.version;
    }
-   $('audConnection').textContent=d.state?'● ライブ同期中 · 約6秒ごとに更新':'○ デモ表示 · 講演者のクラウド接続待ち';
+   $('audConnection').textContent=d.state?(firestoreConnected?'● Cloud Firestore · リアルタイム配信中':'● ライブ同期中 · 約6秒ごとに更新'):'○ デモ表示 · 講演者のクラウド接続待ち';
  }catch(e){$('audConnection').textContent='○ オフライン表示 · 接続を確認してください';if(manual)toast(e.message);}
  finally{cloudPollBusy=false;}
 }
-function startAudienceSync(){pollAudience();setInterval(()=>{if(!document.hidden)pollAudience()},6000);}
+// Use Firestore push notifications when a Firebase project is configured.
+// Blob polling is retained as a safe fallback for workshops not yet migrated.
+let firestoreConnected=false,firestoreUnsubscribe=null,legacyPollingTimer=null;
+function fallbackToPolling(){
+ if(legacyPollingTimer)return;
+ pollAudience();
+ legacyPollingTimer=setInterval(()=>{if(!document.hidden)pollAudience()},6000);
+}
+async function startAudienceSync(){
+ try{
+   const response=await fetch('/api/firebase-config',{cache:'no-store'});
+   if(!response.ok)throw Error('Firebase config unavailable');
+   const setup=await response.json();
+   if(!setup.enabled){fallbackToPolling();return}
+   const [appSdk,firestoreSdk]=await Promise.all([
+     import('https://www.gstatic.com/firebasejs/13.1.0/firebase-app.js'),
+     import('https://www.gstatic.com/firebasejs/13.1.0/firebase-firestore.js')
+   ]);
+   const app=appSdk.getApps().find(x=>x.name==='unfoldAudience') ||
+     appSdk.initializeApp(setup.config,'unfoldAudience');
+   const db=firestoreSdk.getFirestore(app);
+   const liveDoc=firestoreSdk.doc(db,setup.collection,setup.document);
+   firestoreUnsubscribe=firestoreSdk.onSnapshot(liveDoc,snapshot=>{
+     firestoreConnected=true;
+     if(!snapshot.exists()){
+       $('audConnection').textContent='○ Firestore接続中 · 講演者の初回公開を待っています';
+       return;
+     }
+     const payload=snapshot.data();
+     if(payload?.state && validData(payload.state) && payload.version!==lastCloudVersion){
+       lastCloudVersion=payload.version;
+       syncIncoming(payload.state);
+     }
+     $('audConnection').textContent='● Cloud Firestore · リアルタイム配信中';
+   },error=>{
+     console.warn('UNFOLD Firestore listener:',error?.code||error?.message);
+     firestoreConnected=false;
+     if(firestoreUnsubscribe){firestoreUnsubscribe();firestoreUnsubscribe=null}
+     $('audConnection').textContent='○ Firestore接続失敗 · 6秒更新に切り替えます';
+     fallbackToPolling();
+   });
+ }catch(error){
+   console.warn('UNFOLD Firestore unavailable; using polling:',error?.message);
+   fallbackToPolling();
+ }
+}
 paintCloudStatus();
 
 if(isAudience){$('studioHeader').style.display='none';$('studioView').style.display='none';$('audienceView').style.display='block';document.title='参加者 | '+state.title;renderPreviews();startAudienceSync()}else{renderBase();renderEditorPanel();renderPreviews();restoreAdminSession()}
