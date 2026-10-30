@@ -1,0 +1,16 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Audience can only read the published session snapshot.
+    // Full workshop drafts live separately in the private Vercel Blob store.
+    // Only the Vercel server (Firebase Admin SDK / IAM) may publish updates.
+    match /unfoldLive/main {
+      allow get: if true;
+      allow list, create, update, delete: if false;
+    }
+    // Explicitly deny access to any other documents in this dedicated project.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
