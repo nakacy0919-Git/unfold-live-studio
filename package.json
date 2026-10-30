@@ -1,0 +1,13 @@
+{
+  "name": "unfold-live-studio",
+  "version": "0.2.0",
+  "private": true,
+  "type": "module",
+  "description": "UNFOLD - Talk. Reveal. Learn.",
+  "dependencies": {
+    "@vercel/blob": "^2.8.2"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}
